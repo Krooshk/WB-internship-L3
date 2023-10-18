@@ -1,13 +1,12 @@
 import localforage from 'localforage';
 import { ProductData } from 'types';
 
-// const DB = '__wb-cart';
 const DB = '__wb-favorite';
 
 class FavoriteService {
-	//   init() {
-	//     this._updCounters();
-	//   }
+	init() {
+		this._updCounters();
+	}
 
 	async addProduct(product: ProductData) {
 		// localforage.clear();
@@ -23,7 +22,7 @@ class FavoriteService {
 
 	async clear() {
 		await localforage.removeItem(DB);
-		// this._updCounters();
+		this._updCounters();
 	}
 
 	async get(): Promise<ProductData[]> {
@@ -32,21 +31,23 @@ class FavoriteService {
 
 	async set(data: ProductData[]) {
 		await localforage.setItem(DB, data);
-		// this._updCounters();
+		this._updCounters();
 	}
 
-	async isInCart(product: ProductData) {
+	async isInFavorite(product: ProductData) {
 		const products = await this.get();
 		return products.some(({ id }) => id === product.id);
 	}
 
-	//   private async _updCounters() {
-	//     const products = await this.get();
-	//     const count = products.length >= 10 ? '9+' : products.length;
+	private async _updCounters() {
+		const products = await this.get();
+		const count = products.length >= 10 ? '9+' : products.length;
+		const favorite = document.querySelector('.favorite') as HTMLElement;
+		favorite.style.display = products.length === 0 ? 'none' : 'inline-block';
 
-	//     //@ts-ignore
-	//     document.querySelectorAll('.js__cart-counter').forEach(($el: HTMLElement) => ($el.innerText = String(count || '')));
-	//   }
+		//@ts-ignore
+		document.querySelectorAll('.js__favorite-counter').forEach(($el: HTMLElement) => ($el.innerText = String(count || '')));
+	}
 }
 
 export const favoriteService = new FavoriteService();

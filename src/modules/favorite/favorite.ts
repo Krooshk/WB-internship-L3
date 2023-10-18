@@ -14,7 +14,7 @@ class Favorite extends Component {
 		super(props);
 
 		this.favoriteProducts = new ProductList();
-		this.favoriteProducts.attach(this.view.popular);
+		this.favoriteProducts.attach(this.view.favorite);
 	}
 
 	async render() {
@@ -22,27 +22,6 @@ class Favorite extends Component {
 		this.favoriteProducts.update(products);
 
 	}
-
-	//   products!: ProductData[];
-
-	//   async render() {
-	//     this.products = await favoriteService.get();
-
-	//     if (this.products.length < 1) {
-	//       this.view.root.classList.add('is__empty');
-	//       return;
-	//     }
-
-	//     this.products.forEach((product) => {
-	//       const productComp = new Product(product, { isHorizontal: true });
-	//       productComp.render();
-	//       productComp.attach(this.view.cart);
-	//     });
-
-	//     const totalPrice = this.products.reduce((acc, product) => (acc += product.salePriceU), 0);
-	//     this.view.price.innerText = formatPrice(totalPrice);
-
-	//   }
 
 }
 

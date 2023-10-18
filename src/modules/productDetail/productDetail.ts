@@ -37,8 +37,9 @@ class ProductDetail extends Component {
 		this.view.btnFavorite.onclick = this._addToFavorite.bind(this);
 
 		const isInCart = await cartService.isInCart(this.product);
-
+		const isInFavorite = await favoriteService.isInFavorite(this.product);
 		if (isInCart) this._setInCart();
+		if (isInFavorite) this._setInFavorite();
 
 		fetch(`/api/getProductSecretKey?id=${id}`)
 			.then((res) => res.json())
@@ -72,7 +73,7 @@ class ProductDetail extends Component {
 	}
 
 	private _setInFavorite() {
-		this.view.btnFavorite.style.background = "red";
+		this.view.btnFavorite.querySelector('use').setAttribute('xlink:href', '#heart_full')
 		this.view.btnFavorite.disabled = true;
 		// localforage.clear();
 	}
