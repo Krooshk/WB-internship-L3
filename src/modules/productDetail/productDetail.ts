@@ -57,6 +57,14 @@ class ProductDetail extends Component {
 	private _addToCart() {
 		if (!this.product) return;
 
+		fetch('/api/sendEvent', {
+			method: 'POST',
+			body: JSON.stringify({
+				type: 'addToCard',
+				payload: this.product
+			})
+		});
+
 		cartService.addProduct(this.product);
 		this._setInCart();
 	}

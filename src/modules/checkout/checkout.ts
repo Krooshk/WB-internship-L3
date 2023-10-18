@@ -40,7 +40,7 @@ class Checkout extends Component {
 				productIds: this.products.map(el => el.id),
 			}
 		}
-		alert(JSON.stringify(purchase));
+		// alert(JSON.stringify(purchase));
 		fetch('/api/sendEvent', {
 			method: 'POST',
 			body: JSON.stringify(purchase)
