@@ -36,7 +36,7 @@ class Checkout extends Component {
 			type: 'purchase',
 			payload: {
 				orderId: genUUID(),
-				totalPrice: this.view.price.innerText,
+				totalPrice: Number(this.view.price.innerText.match(/\d+/)[0]), //this.view.price.innerText,
 				productIds: this.products.map(el => el.id),
 			}
 		}
