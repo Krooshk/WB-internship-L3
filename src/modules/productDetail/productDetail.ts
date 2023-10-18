@@ -45,7 +45,22 @@ class ProductDetail extends Component {
 			.then((res) => res.json())
 			.then((secretKey) => {
 				this.view.secretKey.setAttribute('content', secretKey);
-			});
+				return secretKey
+			})
+			.then((res) => {
+				console.log({ ...this.product, secretKey: res });
+				fetch('/api/sendEvent', {
+					method: 'POST',
+					body: JSON.stringify({
+						type: 'viewCard',
+						payload: {
+							...this.product,
+							secretKey: res,
+						}
+					})
+				});
+			})
+
 
 		fetch('/api/getPopularProducts')
 			.then((res) => res.json())
