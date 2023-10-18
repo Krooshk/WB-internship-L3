@@ -6,31 +6,40 @@ import { checkoutComp } from './modules/checkout/checkout';
 import { favoriteComp } from './modules/favorite/favorite';
 
 const ROUTES = {
-  '/': homepageComp,
-  '/catalog': catalogComp,
-  '/product': productDetailComp,
-  '/checkout': checkoutComp,
-  '/favorite': favoriteComp,
+	'/': homepageComp,
+	'/catalog': catalogComp,
+	'/product': productDetailComp,
+	'/checkout': checkoutComp,
+	'/favorite': favoriteComp,
 };
 
 export default class Router {
-  $appRoot: HTMLElement;
+	$appRoot: HTMLElement;
 
-  constructor() {
-    // @ts-ignore
-    this.$appRoot = document.querySelector('.js__root');
+	constructor() {
+		// @ts-ignore
+		this.$appRoot = document.querySelector('.js__root');
 
-    window.addEventListener('load', this.route.bind(this));
-    window.addEventListener('hashchange', this.route.bind(this));
-  }
+		window.addEventListener('load', this.route.bind(this));
+		window.addEventListener('hashchange', this.route.bind(this));
+	}
 
-  route(e: any) {
-    e.preventDefault();
+	route(e: any) {
+		e.preventDefault();
+		
+		fetch('/api/sendEvent', {
+			method: 'POST',
+			body: JSON.stringify({
+				type: 'route',
+				payload: {
+					url: window.location.pathname
+				},
+			})
+		});
+		// @ts-ignore
+		const component = ROUTES[window.location.pathname] || notFoundComp;
 
-    // @ts-ignore
-    const component = ROUTES[window.location.pathname] || notFoundComp;
-
-    component.attach(this.$appRoot);
-    component.render();
-  }
+		component.attach(this.$appRoot);
+		component.render();
+	}
 }
