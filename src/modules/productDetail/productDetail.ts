@@ -48,6 +48,7 @@ class ProductDetail extends Component {
 				return secretKey
 			})
 			.then((res) => {
+				// console.log(this.product.log)
 				console.log({ ...this.product, secretKey: res });
 				fetch('/api/sendEvent', {
 					method: 'POST',
