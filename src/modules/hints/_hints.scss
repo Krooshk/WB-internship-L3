@@ -1,0 +1,24 @@
+.hints {
+	font-family: ALS Hauss VF;
+	font-size: 22px;
+	font-style: normal;
+	font-weight: 550;
+	line-height: 24px;
+	margin-bottom: 10px;
+}
+
+.container-for-good {
+	padding: 4px 6px 8px 6px;
+	display: inline-block;
+	height: 24px;
+	border-radius: 8px;
+	background: var(--system-smoky, #F6F6FA);
+}
+
+.good {
+	cursor: pointer;
+	background: linear-gradient(93deg, #DA15B8 4.93%, #8D06CC 100%);
+	background-clip: text;
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent
+}
