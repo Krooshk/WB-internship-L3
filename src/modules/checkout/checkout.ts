@@ -49,7 +49,7 @@ class Checkout extends Component {
 			method: 'POST',
 			body: JSON.stringify(this.products)
 		});
-		// window.location.href = '/?isSuccessOrder';
+		window.location.href = '/?isSuccessOrder';
 	}
 }
 
