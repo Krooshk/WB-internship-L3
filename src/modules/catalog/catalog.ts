@@ -9,7 +9,7 @@ class Catalog extends Component {
 		super(props);
 		this.productList = new ProductList();
 		this.productList.attach(this.view.products);
-		hintsComp.before(this.view.products);
+
 	}
 
 
@@ -18,6 +18,8 @@ class Catalog extends Component {
 		const productsResp = await fetch('/api/getProducts');
 		const products = await productsResp.json();
 		this.productList.update(products);
+		let threeProduct = products.slice(0,3);
+		hintsComp.before(this.view.products, threeProduct);
 	}
 }
 
