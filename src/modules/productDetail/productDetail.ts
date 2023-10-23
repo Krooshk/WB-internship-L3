@@ -29,17 +29,18 @@ class ProductDetail extends Component {
 
 		const { id, src, name, description, salePriceU } = this.product;
 
-		this.view.photo.setAttribute('src', src);
-		this.view.title.innerText = name;
-		this.view.description.innerText = description;
-		this.view.price.innerText = formatPrice(salePriceU);
-		this.view.btnBuy.onclick = this._addToCart.bind(this);
-		this.view.btnFavorite.onclick = this._addToFavorite.bind(this);
-
 		const isInCart = await cartService.isInCart(this.product);
 		const isInFavorite = await favoriteService.isInFavorite(this.product);
 		if (isInCart) this._setInCart();
 		if (isInFavorite) this._setInFavorite();
+
+		this.view.photo.setAttribute('src', src);
+		this.view.title.innerText = name;
+		this.view.description.innerText = description;
+		this.view.price.innerText = formatPrice(salePriceU);
+		this.view.btnBuy.onclick = this._toggleCart.bind(this, isInCart);
+		this.view.btnFavorite.onclick = this._toggleFavorite.bind(this, isInFavorite);
+		// this.view.btnFavorite.onclick = this._addToFavorite.bind(this);
 
 		fetch(`/api/getProductSecretKey?id=${id}`)
 			.then((res) => res.json())
@@ -54,28 +55,48 @@ class ProductDetail extends Component {
 			});
 	}
 
-	private _addToCart() {
-		if (!this.product) return;
 
-		cartService.addProduct(this.product);
-		this._setInCart();
+	private _toggleCart(isInCart: Boolean) {
+		if (!this.product) return;
+		if (isInCart) {
+			cartService.removeProduct(this.product);
+			this._removeFromCart();
+		} else {
+			cartService.addProduct(this.product);
+			this._setInCart();
+		}
+		this.view.btnBuy.onclick = this._toggleCart.bind(this, !isInCart);
 	}
 
-	private _addToFavorite() {
+	private _toggleFavorite(isInFavorite: Boolean) {
 		if (!this.product) return;
-		favoriteService.addProduct(this.product);
-		this._setInFavorite();
+		if (isInFavorite) {
+			favoriteService.removeProduct(this.product);
+			this._removeFromFavorite();
+		} else {
+			favoriteService.addProduct(this.product);
+			this._setInFavorite();
+		}
+		this.view.btnFavorite.onclick = this._toggleFavorite.bind(this, !isInFavorite);
 	}
 
 	private _setInCart() {
 		this.view.btnBuy.innerText = '✓ В корзине';
-		this.view.btnBuy.disabled = true;
+		this.view.btnBuy.classList.add('disabled');
+	}
+
+	private _removeFromCart() {
+		this.view.btnBuy.innerText = 'В корзину';
+		this.view.btnBuy.classList.remove('disabled');
 	}
 
 	private _setInFavorite() {
 		this.view.btnFavorite.querySelector('use').setAttribute('xlink:href', '#heart_full')
-		this.view.btnFavorite.disabled = true;
 		// localforage.clear();
+	}
+
+	private _removeFromFavorite() {
+		this.view.btnFavorite.querySelector('use').setAttribute('xlink:href', '#heart')
 	}
 }
 

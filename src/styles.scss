@@ -115,6 +115,11 @@ img {
 		color: #000;
 	}
 
+	&.disabled {
+		background: var(--plate-color);
+		color: #000;
+	}
+
 	&.is__large {
 		font-size: 1.25em;
 	}
